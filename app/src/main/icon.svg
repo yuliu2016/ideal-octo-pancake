@@ -58,7 +58,7 @@
         M256,96 m-18,-16 h36 v288 l-18,64 l-18,-64 Z"/>
     </g>
 
-    <g transform="rotate(-34, 256, 256)" visibility="visible">
+    <g transform="rotate(0, 256, 256)" visibility="visible">
         <title>Layer 2</title>
         <path fill="#ce4b42" stroke="none" stroke-width="0" d="
         M256,96 m0,-8 h64 a22,22,0,0,1,16,32 l-16,32 h-128
