@@ -37,11 +37,21 @@ android {
     }
 }
 
+val roomVersion = "2.3.0"
+
 dependencies {
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
+
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("androidx.preference:preference:1.1.1")
     implementation("androidx.core:core-ktx:1.5.0")
     implementation("com.google.android.material:material:1.3.0")
+
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor ("androidx.room:room-compiler:$roomVersion")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
 
     testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-api", version = "5.7.0")
     testRuntimeOnly(group = "org.junit.jupiter", name = "junit-jupiter-engine", version = "5.7.0")
