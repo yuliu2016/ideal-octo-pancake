@@ -3,6 +3,7 @@ package reci.proca.pref
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import reci.proca.R
 
@@ -23,8 +24,6 @@ class SettingsActivity : AppCompatActivity() {
             title = getString(R.string.pref_settings_bar_title)
             setDisplayHomeAsUpEnabled(true)
         }
-
-        setTheme(R.style.Theme_Reciproca)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -41,6 +40,12 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+            val darkTheme = findPreference<ListPreference>(PrefKeys.darkTheme)
+            darkTheme?.setOnPreferenceChangeListener { _, newValue ->
+                PrefUtil.setDarkTheme(newValue as? String)
+                true
+            }
         }
     }
 }

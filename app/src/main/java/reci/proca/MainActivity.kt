@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.preference.PreferenceManager
+import reci.proca.pref.PrefUtil
+import reci.proca.pref.PrefKeys
 import reci.proca.pref.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
@@ -12,6 +15,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.my_toolbar))
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        val darkTheme = preferences.getString(PrefKeys.darkTheme, null)
+        PrefUtil.setDarkTheme(darkTheme)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
