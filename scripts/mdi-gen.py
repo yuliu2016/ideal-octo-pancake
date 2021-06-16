@@ -30,11 +30,14 @@ vec_name = mdi_name.replace("-", "_")
 
 vec_content = f"""<!-- drawable/mdi_{vec_name}.xml -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:height="24dp"
     android:width="24dp"
+    android:height="24dp"
+    android:tint="@color/iconColor"
     android:viewportWidth="24"
     android:viewportHeight="24">
-    <path android:fillColor="#000" android:pathData="{mdi_path}" />
+    <path
+        android:fillColor="#000"
+        android:pathData="{mdi_path}" />
 </vector>"""
 
 vec_path = os.path.join(target_path, f"mdi_{vec_name}.xml")
