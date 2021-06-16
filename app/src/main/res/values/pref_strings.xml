@@ -10,4 +10,9 @@
 
     <string name="pref_appearance_header">Appearance</string>
     <string name="pref_settings_bar_title">Settings</string>
+
+    <string name="pref_cat_about">About</string>
+    <string name="pref_version_name">Version:</string>
+
+    <string name="pref_app_name">Reciproca</string>
 </resources>

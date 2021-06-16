@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import reci.proca.BuildConfig
 import reci.proca.R
 
 class SettingsActivity : AppCompatActivity() {
@@ -45,6 +47,12 @@ class SettingsActivity : AppCompatActivity() {
             darkTheme?.setOnPreferenceChangeListener { _, newValue ->
                 PrefUtil.setDarkTheme(newValue as? String)
                 true
+            }
+
+            val aboutApp = findPreference<Preference>(PrefKeys.about)
+            if (aboutApp != null) {
+                aboutApp.summary = getString(R.string.pref_version_name) + " " +
+                        BuildConfig.VERSION_NAME + "-" + BuildConfig.BUILD_TYPE
             }
         }
     }

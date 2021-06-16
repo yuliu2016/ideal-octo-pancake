@@ -11,4 +11,11 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/pref_cat_about">
+        <Preference
+            app:icon="@mipmap/ic_launcher"
+            app:key="pref_about"
+            app:title="@string/pref_app_name" />
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>
