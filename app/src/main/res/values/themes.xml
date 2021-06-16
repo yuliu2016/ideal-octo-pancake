@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Reciproca" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Reciproca" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/scheme_primary</item>
         <item name="colorPrimaryVariant">@color/scheme_5</item>
