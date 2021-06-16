@@ -3,7 +3,8 @@
     package="reci.proca"
     android:installLocation="auto">
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -15,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Reciproca">
 
+        <activity android:name=".pref.SettingsActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
