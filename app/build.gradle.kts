@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -45,9 +46,12 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
     implementation("androidx.appcompat:appcompat:1.3.0")
-    implementation("androidx.preference:preference:1.1.1")
+    implementation("androidx.preference:preference-ktx:1.1.1")
     implementation("androidx.core:core-ktx:1.5.0")
     implementation("com.google.android.material:material:1.3.0")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$roomVersion")
 
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
