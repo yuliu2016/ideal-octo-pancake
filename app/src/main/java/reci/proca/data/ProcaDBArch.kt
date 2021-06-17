@@ -12,7 +12,8 @@ import androidx.room.*
 data class Step(
     @PrimaryKey val stepID: Int,
     val description: String,
-    val annotation: String
+    val annotation: String,
+    val pictureID: Int
 )
 
 
