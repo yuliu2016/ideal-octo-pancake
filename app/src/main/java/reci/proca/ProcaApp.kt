@@ -4,7 +4,7 @@ package reci.proca
 
 import android.app.Application
 import androidx.room.Room
-import reci.proca.data.AppDatabase
+import reci.proca.data.ProcaDB
 
 class ProcaApp : Application() {
 
@@ -14,15 +14,15 @@ class ProcaApp : Application() {
         super.onCreate()
 
         val builder = Room
-            .inMemoryDatabaseBuilder(this, AppDatabase::class.java)
+            .inMemoryDatabaseBuilder(this, ProcaDB::class.java)
         //.databaseBuilder(this, AppDatabase::class.java, "ProcaDB")
 
         dbNullable = builder.build()
     }
 
     companion object {
-        private var dbNullable: AppDatabase? = null
+        private var dbNullable: ProcaDB? = null
 
-        val database: AppDatabase by lazy { dbNullable!! }
+        val database: ProcaDB by lazy { dbNullable!! }
     }
 }
