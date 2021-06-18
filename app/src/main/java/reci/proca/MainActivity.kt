@@ -1,9 +1,9 @@
 package reci.proca
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +22,7 @@ import reci.proca.pref.SettingsActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,11 +60,26 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
 
+        println("Result maybe? $result")
+
         if (result.resultCode == RESULT_OK) {
-            val data = result.data
-            Log.i("extras", data?.extras.toString())
-            val bitmap = data?.extras?.get("data") as? Bitmap
-            findViewById<ImageView>(R.id.thumbnail).setImageBitmap(bitmap)
+            println("Result ok!!, path=$currentPhotoPath")
+
+            val ppath = currentPhotoPath!!
+
+            thread {
+                val bitmap = BitmapFactory.decodeFile(ppath)!!
+
+                println("Decode ok!!")
+
+                // https://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
+                val thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 480, 480)
+
+                runOnUiThread {
+                    findViewById<ImageView>(R.id.thumbnail).setImageBitmap(thumbnail)
+                    println("Thumb ok!!")
+                }
+            }
         }
     }
 
@@ -72,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     private fun takePicture() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-        val f = createImageTempFile()
+        val f = createImageFile()
 
 
         // https://stackoverflow.com/questions/56598480/couldnt-find-meta-data-for-provider-with-authority
@@ -84,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         currentPhotoPath = f.absolutePath
+        Log.e("blah", "path=$currentPhotoPath")
 
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -100,11 +117,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun createImageTempFile(): File {
+    private fun createImageFile(): File {
         val date = Date()
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.ROOT).format(date)
         // https://stackoverflow.com/questions/3425906/creating-temporary-files-in-android
-        val storageDir = cacheDir
+        val storageDir = filesDir
         return File(storageDir, "$timeStamp.jpg")
     }
 }
