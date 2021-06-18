@@ -12,6 +12,8 @@ import androidx.room.RoomDatabase
         EntryPicture::class
     ],
     version = 1,
+
+    // https://stackoverflow.com/questions/44322178/room-schema-export-directory-is-not-provided-to-the-annotation-processor-so-we
     exportSchema = false,
 )
 abstract class ProcaDB : RoomDatabase() {

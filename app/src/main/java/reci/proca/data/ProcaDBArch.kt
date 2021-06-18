@@ -64,12 +64,12 @@ data class EntryPicture(
 )
 
 
+
 data class CompositeLog(
     @Embedded val entry: LogEntry,
     @Relation(
         parentColumn = "entryID",
         entityColumn = "entryID"
     )
-    val steps: List<Step>,
-    val pictures: List<EntryPicture>
+    val steps: List<Step>
 )
