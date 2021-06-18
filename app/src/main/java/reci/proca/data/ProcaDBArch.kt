@@ -28,20 +28,48 @@ data class Picture(
     val smallThumb: ByteArray
 )
 
+
+@Entity
+data class ReferenceEntry(
+    @PrimaryKey val refID: Int,
+    val modified: Int,
+    val avgRating: Int,
+    val annotation: String,
+    val logNum: Int
+)
+
+
 @Entity
 data class LogEntry(
     @PrimaryKey val entryID: Int,
     val timestamp: Int,
     val modified: Int,
     val isDraft: Boolean,
-    val referenceID: Int,
+    val refID: Int,
     val selfRating: Int,
     val annotation: String,
+    val variations: Int,
 )
 
 
+/**
+ * Each entry (whether reference or not)
+ * has a list of associated pictures
+ */
 @Entity
-data class ReferenceEntry(
-    @PrimaryKey val refID: Int,
+data class EntryPicture(
+    @PrimaryKey val entryID: Int,
+    val pictureID: Int,
+    val isReference: Boolean
+)
 
+
+data class CompositeLog(
+    @Embedded val entry: LogEntry,
+    @Relation(
+        parentColumn = "entryID",
+        entityColumn = "entryID"
     )
+    val steps: List<Step>,
+    val pictures: List<EntryPicture>
+)

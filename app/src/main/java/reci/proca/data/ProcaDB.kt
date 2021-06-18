@@ -7,10 +7,12 @@ import androidx.room.RoomDatabase
     entities = [
         Step::class,
         Picture::class,
+        ReferenceEntry::class,
         LogEntry::class,
-        LogEntryMemo::class,
+        EntryPicture::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false,
 )
 abstract class ProcaDB : RoomDatabase() {
     abstract fun procaDao(): ProcaDao
