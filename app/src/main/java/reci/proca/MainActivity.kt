@@ -1,18 +1,27 @@
 package reci.proca
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.preference.PreferenceManager
 import reci.proca.pref.PrefUtil
 import reci.proca.pref.PrefKeys
 import reci.proca.pref.SettingsActivity
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,21 +54,57 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private val takePictureLauncher =  registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result ->
+    // https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
 
         if (result.resultCode == RESULT_OK) {
             val data = result.data
+            Log.i("extras", data?.extras.toString())
             val bitmap = data?.extras?.get("data") as? Bitmap
             findViewById<ImageView>(R.id.thumbnail).setImageBitmap(bitmap)
         }
     }
 
+    private var currentPhotoPath: String? = null
+
     private fun takePicture() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-        // https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
+        val f = createImageTempFile()
 
-       takePictureLauncher.launch(takePictureIntent)
+
+        // https://stackoverflow.com/questions/56598480/couldnt-find-meta-data-for-provider-with-authority
+        // https://stackoverflow.com/questions/62902968/couldnt-find-meta-data-for-provider-with-authority-com-example-android-provider?noredirect=1&lq=1
+        // https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed
+
+        val photoUri: Uri = FileProvider.getUriForFile(
+            this, "$packageName.provider", f
+        )
+
+        currentPhotoPath = f.absolutePath
+
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            takePictureIntent.putExtra(MediaStore.EXTRA_BRIGHTNESS, 1.0)
+        }
+
+        takePictureIntent.putExtra(MediaStore.EXTRA_FULL_SCREEN, true)
+        takePictureIntent.putExtra(
+            MediaStore.EXTRA_SCREEN_ORIENTATION,
+            ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
+        )
+
+        takePictureLauncher.launch(takePictureIntent)
+    }
+
+
+    private fun createImageTempFile(): File {
+        val date = Date()
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.ROOT).format(date)
+        // https://stackoverflow.com/questions/3425906/creating-temporary-files-in-android
+        val storageDir = cacheDir
+        return File(storageDir, "$timeStamp.jpg")
     }
 }
