@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/change_ref"
+        android:icon="@drawable/mdi_script_text_outline"
+        android:title="Change"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/edit_name"
+        android:icon="@drawable/mdi_pencil"
+        android:title="Edit Name"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/edit_name2"
+        android:icon="@drawable/mdi_plus"
+        android:title="Add Step"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/edit_name3"
+        android:icon="@drawable/mdi_camera_plus_outline"
+        android:title="Add Picture"
+
+        app:showAsAction="always" />
+</menu>
