@@ -49,6 +49,7 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.1.1")
     implementation("androidx.core:core-ktx:1.5.0")
     implementation("com.google.android.material:material:1.3.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 
     // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:$roomVersion")

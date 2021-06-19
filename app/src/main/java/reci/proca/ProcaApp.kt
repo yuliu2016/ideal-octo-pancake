@@ -13,7 +13,7 @@ class ProcaApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        database(this, inMemory = true)
+        database(this, inMemory = false)
     }
 
     companion object {

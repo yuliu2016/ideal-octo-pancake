@@ -51,6 +51,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, SettingsActivity::class.java))
 
             R.id.menu_take_picture -> takePicture()
+
+            R.id.menu_new_entry ->
+                startActivity(Intent(this, LogActivity::class.java))
         }
         return true
     }
