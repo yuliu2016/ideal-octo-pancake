@@ -64,21 +64,22 @@ class MainActivity : AppCompatActivity() {
 
         if (result.resultCode == RESULT_OK) {
             println("Result ok!!, path=$currentPhotoPath")
+            displayImage(currentPhotoPath!!)
+        }
+    }
 
-            val ppath = currentPhotoPath!!
+    private fun displayImage(ppath: String) {
+        thread {
+            val bitmap = BitmapFactory.decodeFile(ppath)!!
 
-            thread {
-                val bitmap = BitmapFactory.decodeFile(ppath)!!
+            println("Decode ok!!")
 
-                println("Decode ok!!")
+            // https://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
+            val thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 480, 480)
 
-                // https://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
-                val thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 480, 480)
-
-                runOnUiThread {
-                    findViewById<ImageView>(R.id.thumbnail).setImageBitmap(thumbnail)
-                    println("Thumb ok!!")
-                }
+            runOnUiThread {
+                findViewById<ImageView>(R.id.thumbnail).setImageBitmap(thumbnail)
+                println("Thumb ok!!")
             }
         }
     }

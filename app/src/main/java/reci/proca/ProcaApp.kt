@@ -3,6 +3,7 @@
 package reci.proca
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import reci.proca.data.ProcaDB
 
@@ -12,17 +13,26 @@ class ProcaApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        val builder = Room
-            .inMemoryDatabaseBuilder(this, ProcaDB::class.java)
-        //.databaseBuilder(this, AppDatabase::class.java, "ProcaDB")
-
-        dbNullable = builder.build()
+        database(this, inMemory = true)
     }
 
     companion object {
-        private var dbNullable: ProcaDB? = null
+        private var procaDB: ProcaDB? = null
 
-        val database: ProcaDB by lazy { dbNullable!! }
+        fun database(context: Context, inMemory: Boolean = true): ProcaDB {
+            val db = procaDB
+            if (db != null) {
+                return db
+            }
+            val builder = if (inMemory) {
+                Room.inMemoryDatabaseBuilder(context, ProcaDB::class.java)
+            } else {
+                Room.databaseBuilder(context, ProcaDB::class.java, "ProcaDB")
+            }
+
+            val newDB = builder.build()
+            procaDB = newDB
+            return newDB
+        }
     }
 }
